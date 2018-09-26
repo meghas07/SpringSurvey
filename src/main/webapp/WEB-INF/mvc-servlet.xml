@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- Loading annotated beans -->
+	<context:component-scan
+		base-package="com.zycus.entity , com.zycus.repository , com.zycus.controller ,com.zycus.service" /> 	<!-- OR com.zycus.controller, com.zycus.service, com.zycus.dao -->
+
+	<!-- Enabling all the important features of Spring MVC -->
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/css/**" location="/css/" />
+
+	<!-- DataSource Configuration -->
+	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="ds">
+		<property name="driverClassName"
+			value="org.apache.derby.jdbc.ClientDriver"></property>
+		<property name="url"
+			value="jdbc:derby://localhost:1527/MyDb;create=true" />
+		<property name="username" value="user" />
+		<property name="password" value="pass" />
+	</bean>
+
+
+	<!-- JPA Configuration -->
+	<!-- This bean will create the EntityManagerFactory object -->
+	<bean id="myEmf"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="ds" />
+	</bean>
+
+	<!-- Configuration for Transaction Manager needed for JPA -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="myEmf" />
+	</bean>
+
+	<!-- Enabling support for @Transactional annotation -->
+	<tx:annotation-driven />
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>

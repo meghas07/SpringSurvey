@@ -1,0 +1,180 @@
+@charset "ISO-8859-1";
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid black;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #dddddd;
+	border: 1px solid black;
+}
+
+.outerbox {
+	background-color: #f2f2f2;
+	width: 70%;
+	height: auto;
+	padding: 10px;
+	border: 2px solid black;
+	margin-left: 15%;
+	margin-top: 10%;
+}
+
+#login {
+    padding-top: 50px
+}
+#login .form-wrap {
+    width: 30%;
+    margin: 0 auto;
+}
+#login h1 {
+    color: #1fa67b;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+#login .form-group {
+    margin-bottom: 25px;
+}
+#login .checkbox {
+    margin-bottom: 20px;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+#login .checkbox.show:before {
+    content: '\e013';
+    color: #1fa67b;
+    font-size: 17px;
+    margin: 1px 0 0 3px;
+    position: absolute;
+    pointer-events: none;
+    font-family: 'Glyphicons Halflings';
+}
+#login .checkbox .character-checkbox {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    display: inline-block;
+}
+#login .checkbox .label {
+    color: #6d6d6d;
+    font-size: 13px;
+    font-weight: normal;
+}
+#login .btn.btn-custom {
+    font-size: 14px;
+	margin-bottom: 20px;
+}
+#login .forget {
+    font-size: 13px;
+	text-align: center;
+	display: block;
+}
+
+/*    --------------------------------------------------
+	:: Inputs & Buttons
+	-------------------------------------------------- */
+.form-control {
+    color: #212121;
+}
+.btn-custom {
+    color: #fff;
+	background-color: #1fa67b;
+}
+.btn-custom:hover,
+.btn-custom:focus {
+    color: #fff;
+}
+
+.survey_status {
+	display: inline-block;
+	padding: 5px 5px;
+	font-size: 14px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #fff;
+	/* background-color: #4CAF50; */
+	border: none;
+	border-radius: 5px; 
+	box-shadow: 0 2px #999;
+}
+.survey_status:hover ,.share_survey:hover {background-color: #B0E0E6}
+
+.survey_status:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.share_survey:active{
+  background-color: #B0E0E6;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.share_survey{
+	display: inline-block;
+	padding: 5px 5px;
+	font-size: 14px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	text
+	outline: none;
+	color: white;
+	 background-color:#0099CC;
+	border: none;
+	border-radius: 5px; 
+	box-shadow: 0 2px #999;
+}
+
+
+body{
+    background: #eee;
+}
+span{
+    font-size:15px;
+}
+a{
+  text-decoration:none; 
+  color: #0062cc;
+  border-bottom:2px solid #0062cc;
+}
+.box{
+    padding:60px 0px;
+}
+
+.box-part{
+    background:#FFF;
+    border-radius:0;
+    padding:60px 10px;
+    margin:30px 0px;
+}
+.text{
+    margin:20px 0px;
+}
+
+.fa{
+     color:#4183D7;
+}
+
+#TextBoxesGroup{
+	margin-bottom:10px;
+	width: 600px;
+}
