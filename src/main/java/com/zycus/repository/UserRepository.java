@@ -14,8 +14,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import com.zycus.entity.User;
-import com.zycus.entity.Survey;
-import com.zycus.entity.User;
+import com.zycus.customExceptions.EntityNotFoundInDatabaseException;
 
 @Component
 @Transactional
@@ -23,8 +22,8 @@ public class UserRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public User checkUserLoginCredentials(User user) {
-		User existingUser;
+	public User checkUserLoginCredentials(User user) throws EntityNotFoundInDatabaseException {
+
 		CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
 		CriteriaQuery<User> query = criteria.createQuery(User.class);
 		Root<User> root = query.from(User.class);
@@ -34,15 +33,13 @@ public class UserRepository {
 		TypedQuery<User> myQuery = entityManager.createQuery(query);
 
 		try {
+			return myQuery.getSingleResult();
 
-			existingUser = myQuery.getSingleResult();
-			System.out.println(existingUser);
 		} catch (NoResultException e) {
-			e.printStackTrace();
-			return null;
+			System.out.println("catch block");
+			throw new EntityNotFoundInDatabaseException("Invalid Username or Password.");
 		}
 
-		return existingUser;
 	}
 
 	public List<User> showAllUsersByRole(Object role) {

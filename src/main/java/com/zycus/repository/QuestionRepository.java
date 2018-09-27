@@ -3,7 +3,6 @@ package com.zycus.repository;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,6 +11,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Component;
 
+import com.zycus.customExceptions.EntityNotFoundInDatabaseException;
 import com.zycus.entity.Question;
 import com.zycus.entity.Survey;
 
@@ -21,7 +21,7 @@ public class QuestionRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public List<Question> showAllQuestionsInSurvey(Object surveyId) {
+	public List<Question> showAllQuestionsInSurvey(Object surveyId) throws EntityNotFoundInDatabaseException {
 
 		CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Question> query = criteria.createQuery(Question.class);
@@ -31,16 +31,13 @@ public class QuestionRepository {
 		TypedQuery<Question> myQuery = entityManager.createQuery(query);
 
 		List<Question> listOfQuestions;
-		try {
 
+		try {
 			listOfQuestions = myQuery.getResultList();
 
-		} catch (NoResultException e) {
-			e.printStackTrace();
-			System.out.println("in catch");
-			return null;
+		} catch (Exception e) {
+			throw new EntityNotFoundInDatabaseException();
 		}
-
 		return listOfQuestions;
 
 	}

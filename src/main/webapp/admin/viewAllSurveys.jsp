@@ -160,5 +160,8 @@
 
 				</table>
 				<button id="home">Home</button>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

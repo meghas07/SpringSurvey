@@ -1,5 +1,6 @@
 package com.zycus.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -51,7 +52,11 @@ public class AdministratorRestController {
 	// This is for checking login credentials of user
 	@RequestMapping(value = "rest/user/login", method = RequestMethod.POST, consumes = "application/json", produces = "text/plain")
 	public @ResponseBody String userLogin(@RequestBody User user, HttpServletRequest request) {
-
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		String password = request.getParameter("password");
+		User requestedUser = new User();
+		requestedUser.setId(id);
+		requestedUser.setPassword(password);
 		String role = userService.login(user);
 		if (role != null) {
 			HttpSession session = request.getSession();

@@ -28,14 +28,14 @@ $(function() { //anonymous function short for doucment ready or document load
 	     var userObjAsJSON = JSON.stringify(userObj);
 	     console.log(userObjAsJSON);
 
-	     $
+	     /* $
 	      .ajax({
 	       url: "rest/user/login",
 	       type: "POST",
 	       data: userObjAsJSON,
 	       contentType: "application/json",
 	       success: function(response, status) {
-	        console.log(response, status);
+	        console.log(response, status);},
 
 	        if (response == "admin")
 	         window.location = "/SurveyProjectMVC/admin/Administratorhome";
@@ -47,7 +47,8 @@ $(function() { //anonymous function short for doucment ready or document load
 	         window.location = "/SurveyProjectMVC/home";
 	        }
 
-	       }
+	       
+	        error:function(response,status){console.log(response);}
 	      });
 
 	    } else {
@@ -55,7 +56,7 @@ $(function() { //anonymous function short for doucment ready or document load
 	     alert("Invalid username password");
 	     window.location = "/SurveyProjectMVC/home";
 	    }
-	   });
+	   }); */
 
 	});
 
@@ -87,15 +88,15 @@ $(function() { //anonymous function short for doucment ready or document load
 			<div class="col-xs-12">
 				<div class="form-wrap">
 					<h1>Log in</h1>
-					<form id="login-form" autocomplete="off">
+					<form id="login-form" autocomplete="off" action="rest/user/login">
 						<div class="form-group">
 							<label for="userId" class="sr-only">User ID</label> <input
-								type="text" name="userid" id="id" class="form-control"
+								type="text" name="id" id="id" class="form-control"
 								placeholder="User ID">
 						</div>
 						<div class="form-group">
 							<label for="key" class="sr-only">Password</label> <input
-								type="password" name="key" id="pass" class="form-control"
+								type="password" name="password" id="pass" class="form-control"
 								placeholder="Password">
 						</div>
 						<div class="checkbox">
