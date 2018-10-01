@@ -20,7 +20,14 @@
 	<!-- Enabling all the important features of Spring MVC -->
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/css/**" location="/css/" />
-
+	<mvc:resources mapping="/js/**" location="/js/" />
+	
+<bean id="modelview"
+		class="org.springframework.web.servlet.ModelAndView">
+		
+	</bean>
+	
+	
 	<!-- DataSource Configuration -->
 	<bean
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"

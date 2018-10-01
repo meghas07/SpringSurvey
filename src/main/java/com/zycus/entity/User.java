@@ -1,10 +1,14 @@
 package com.zycus.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.zycus.myenums.UserRole;
 
 @Entity
 @Table(name = "tbl_users")
@@ -16,7 +20,9 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
-	private String role;
+
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
 
 	public Integer getId() {
 		return id;
@@ -50,11 +56,11 @@ public class User {
 		this.password = password;
 	}
 
-	public String getRole() {
+	public UserRole getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(UserRole role) {
 		this.role = role;
 	}
 

@@ -2,24 +2,31 @@ package com.zycus.repository;
 
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+/*import org.omg.PortableServer.THREAD_POLICY_ID;*/
 import org.springframework.stereotype.Component;
 
+import com.zycus.customExceptions.CouldNotPerformOperationException;
 import com.zycus.customExceptions.EntityNotFoundInDatabaseException;
 import com.zycus.customExceptions.NoRecordsFoundException;
 
 @Component
 @Transactional
-public class CrudRepository<T> {
+public class CrudRepository<T> /* implements Thread.UncaughtExceptionHandler */ {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void addRecord(T myObject) {
-		entityManager.persist(myObject);
+	public void addRecord(T myObject) throws CouldNotPerformOperationException {
+		try {
+			entityManager.persist(myObject);
+		} catch (IllegalArgumentException | EntityExistsException e) {
+			throw new CouldNotPerformOperationException("Unable to save this record : ", myObject, myObject.getClass());
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -28,15 +35,16 @@ public class CrudRepository<T> {
 		try {
 			return (List<T>) entityManager.createQuery(jpql).getResultList();
 		} catch (Exception e) {
-			throw new NoRecordsFoundException("Record does not exist for the given details .");
+			throw new NoRecordsFoundException("No records exist", clazz);
 		}
 	}
 
 	public T fetchById(Class<T> clazz, Object id) throws EntityNotFoundInDatabaseException {
 		try {
+
 			return entityManager.find(clazz, id);
 		} catch (Exception e) {
-			throw new EntityNotFoundInDatabaseException("Record does not exist for the given details.");
+			throw new EntityNotFoundInDatabaseException("Record does not exist for the given ID.");
 		}
 
 	}
@@ -45,8 +53,19 @@ public class CrudRepository<T> {
 		entityManager.merge(myGenericObject);
 	}
 
-	public void delete(Class<T> className, Object id) {
-		Object object = entityManager.find(className, id);
-		entityManager.remove(object);
+	public void delete(Class<T> className, Object id) throws CouldNotPerformOperationException {
+		try {
+			Object object = entityManager.find(className, id);
+			entityManager.remove(object);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
+
+	/*
+	 * @Override public void uncaughtException(Thread t, Throwable e) {
+	 * e.setStackTrace("");
+	 * 
+	 * }
+	 */
 }

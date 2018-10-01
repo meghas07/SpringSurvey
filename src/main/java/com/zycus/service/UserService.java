@@ -4,22 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zycus.entity.User;
+import com.zycus.myenums.UserRole;
+import com.zycus.repository.UserRepository;
 
 @Service
 public class UserService {
-
 	@Autowired
-	private Validator loginValidation;
+	private UserRepository userRepository;
 
-	private User validUser;
+	public UserRole login(int userId, String password) {
 
-	public String login(User user) {
-
-		validUser = loginValidation.checkLoginCredentials(user);
-		if (validUser.getRole().equalsIgnoreCase("administrator"))
-			return "admin";
-		else if (validUser.getRole().equalsIgnoreCase("user"))
-			return "user";
+		User user = (User) userRepository.checkUserLoginCredentials(userId);
+		if (user.getPassword().equals(password))
+			return user.getRole();
 		return null;
 
 	}

@@ -18,6 +18,7 @@ import com.zycus.entity.Question;
 import com.zycus.entity.Response;
 import com.zycus.entity.Survey;
 import com.zycus.repository.QuestionRepository;
+import com.zycus.service.QuestionService;
 import com.zycus.service.ResponseService;
 import com.zycus.service.UserSurveyService;
 
@@ -25,8 +26,9 @@ import com.zycus.service.UserSurveyService;
 public class UserRestController {
 	@Autowired
 	private UserSurveyService userSurveyService;
+
 	@Autowired
-	private QuestionRepository qrepo;
+	private QuestionService questionService;
 	@Autowired
 	private ResponseService responseService;
 
@@ -41,8 +43,7 @@ public class UserRestController {
 	@RequestMapping(value = "rest/user/giveResponse", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Question> giveResponseToSurvey(@RequestParam int surveyId) {
 
-		List<Question> listOfQuestions = qrepo.showAllQuestionsInSurvey(surveyId);
-		return listOfQuestions;
+		return questionService.fetchAllQuestions(surveyId);
 	}
 
 	// This is for storing responses in database
@@ -65,6 +66,12 @@ public class UserRestController {
 		HttpSession session = request.getSession();
 		int userId = (Integer) session.getAttribute("userid");
 		return userSurveyService.showCompletedResponse(surveyId, userId);
+	}
+
+	// To view the created and completed survey
+	@RequestMapping(value = "rest/user/viewCompleteSurvey", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Question> getCompleteSurvey(@RequestParam int surveyId) {
+		return questionService.fetchAllQuestions(surveyId);
 	}
 
 }

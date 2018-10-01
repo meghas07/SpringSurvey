@@ -21,7 +21,7 @@ public class QuestionRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public List<Question> showAllQuestionsInSurvey(Object surveyId) throws EntityNotFoundInDatabaseException {
+	public List<Question> showAllQuestionsInSurvey(int surveyId) throws EntityNotFoundInDatabaseException {
 
 		CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Question> query = criteria.createQuery(Question.class);
