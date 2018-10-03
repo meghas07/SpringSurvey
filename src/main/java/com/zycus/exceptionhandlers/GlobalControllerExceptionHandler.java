@@ -1,46 +1,59 @@
 package com.zycus.exceptionhandlers;
 
-import java.sql.SQLException;
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.zycus.customExceptions.CouldNotPerformOperationException;
 import com.zycus.customExceptions.EntityNotFoundInDatabaseException;
+import com.zycus.customExceptions.IncompleteDetailsException;
+import com.zycus.customExceptions.InvalidDetailsException;
 import com.zycus.customExceptions.NoRecordsFoundException;
+import com.zycus.errorDescription.ErrorDetails;
 
 @EnableWebMvc
 @ControllerAdvice
-public class GlobalControllerExceptionHandler {
-	@Autowired
-	private ModelAndView modelAndView;
+@RequestMapping(produces = "application/json")
+public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ResponseStatus(HttpStatus.NOT_FOUND) // 404
+	@ExceptionHandler(InvalidDetailsException.class)
+	public ResponseEntity<String> invalidDetailsException(InvalidDetailsException ex) {
+		System.out.println(ex.getMessage());
+		ErrorDetails details = new ErrorDetails(ex.getMessage(), ex.getObject());
+
+		return new ResponseEntity<String>(details.getErrorMessage(), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(IncompleteDetailsException.class)
+	public ResponseEntity incompleteDetailsException(IncompleteDetailsException ex) {
+		System.out.println(ex.getMessage());
+		ErrorDetails details = new ErrorDetails(ex.getMessage(), ex.getObject());
+		return new ResponseEntity(details.getErrorMessage(), HttpStatus.BAD_REQUEST);
+	}
+
 	@ExceptionHandler(EntityNotFoundInDatabaseException.class)
-	public ModelAndView entityNotFoundInDatabaseException(HttpServletRequest request,
-			EntityNotFoundInDatabaseException ex, Model model) {
-		modelAndView.getModel().put("message", ex.getMessage());
-		return new ModelAndView("/errorPages/error", modelAndView.getModel());
+	public ResponseEntity<String> entityNotFoundInDatabaseException(EntityNotFoundInDatabaseException ex) {
+		System.out.println(ex.getMessage());
+		ErrorDetails details = new ErrorDetails(ex.getMessage(), ex.getObject());
+
+		return new ResponseEntity<String>(details.getErrorMessage(), HttpStatus.NOT_FOUND);
 	}
 
-	@ResponseStatus(HttpStatus.NOT_FOUND) // 404
 	@ExceptionHandler(NoRecordsFoundException.class)
-	public ModelAndView noRecordFoundException(HttpServletRequest request, NoRecordsFoundException ex) {
-		modelAndView.getModel().put("message", ex.getMessage());
-		return new ModelAndView("/errorPages/error", modelAndView.getModel());
+	public ResponseEntity<ErrorDetails> noRecordFoundException(NoRecordsFoundException ex) {
+		ErrorDetails details = new ErrorDetails(ex.getMessage(), ex.getObject());
+		return new ResponseEntity<ErrorDetails>(details, HttpStatus.NOT_FOUND);
 
 	}
 
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500 doubt? ask someone to confirm status code
-	@ExceptionHandler(SQLException.class)
-	public ModelAndView couldNotPerformOperationException(HttpServletRequest request, SQLException ex) {
-		modelAndView.getModel().put("message", ex.getMessage());
-		return new ModelAndView("/errorPages/error", modelAndView.getModel());
+	@ExceptionHandler(CouldNotPerformOperationException.class)
+	public ResponseEntity<String> couldNotPerformOperationException(CouldNotPerformOperationException ex) {
+		ErrorDetails details = new ErrorDetails(ex.getMessage(), ex.getObject());
+		return new ResponseEntity<String>(details.getErrorMessage(), HttpStatus.BAD_REQUEST);
 
 	}
 

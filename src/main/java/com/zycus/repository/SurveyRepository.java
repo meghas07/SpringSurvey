@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
+import com.zycus.customExceptions.NoRecordsFoundException;
 import com.zycus.entity.SharedSurveysWithUser;
 import com.zycus.entity.Survey;
 import com.zycus.entity.User;
@@ -33,18 +34,14 @@ public class SurveyRepository {
 		query.select(root);
 		TypedQuery<Survey> myQuery = entityManager.createQuery(query);
 
-		List<Survey> listOfSurveys;
 		try {
 
-			listOfSurveys = myQuery.getResultList();
+			return myQuery.getResultList();
 
 		} catch (NoResultException e) {
 			e.printStackTrace();
-			System.out.println("in catch");
-			return null;
+			throw new NoRecordsFoundException("No Surveys created by ", adminId);
 		}
-
-		return listOfSurveys;
 
 	}
 

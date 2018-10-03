@@ -14,7 +14,7 @@
 	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="js/login.js"></script>
+
 </head>
 <body>
 
@@ -36,10 +36,6 @@
 								<label for="key" class="sr-only">Password</label> <input
 									type="password" name="password" id="pass" class="form-control"
 									placeholder="Password">
-							</div>
-							<div class="checkbox">
-								<span class="character-checkbox" onclick="showPassword()"></span>
-								<span class="label">Show password</span>
 							</div>
 							<input type="submit" id="btn-login"
 								class="btn btn-custom btn-lg btn-block" value="Log in">

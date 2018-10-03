@@ -4,9 +4,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zycus.customExceptions.CouldNotPerformOperationException;
+import com.zycus.customExceptions.IncompleteDetailsException;
+import com.zycus.customExceptions.InvalidDetailsException;
 import com.zycus.entity.SharedSurveysWithUser;
 import com.zycus.entity.Survey;
 import com.zycus.myenums.ResponseStatus;
@@ -29,15 +34,18 @@ public class SurveyService {
 	private ResponseRepository responseRepository;
 
 	// 1. Add a survey to the database
-	@SuppressWarnings("unchecked")
-	public String addSurvey(Survey survey) {
-		String message = validator.checkSurveyForm(survey);
-		if (message == "success") {
+
+	@Transactional
+	public boolean addSurvey(Survey survey) {
+
+		if (validator.checkSurveyForm(survey) == true) {
 			survey.setStatus(Status.INACTIVE);
 			repository.addRecord(survey);
-			return message;
+			return true;
+
 		}
-		return message;
+		return false;
+
 	}
 
 	// 2.View All the surveys
@@ -47,6 +55,7 @@ public class SurveyService {
 
 	// 3.Share survey with users.
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public String shareSurvey(Set<SharedSurveysWithUser> sharedSurvey) {
 		try {
 			for (SharedSurveysWithUser shared : sharedSurvey) {
@@ -75,6 +84,7 @@ public class SurveyService {
 
 	// 4.Delete surveys from database
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public void deletSurveyRecord(int surveyId) {
 		surveyRepository.deleteSurveyShared(surveyId);
 		responseRepository.deleteResponsesForSurvey(surveyId);
@@ -88,8 +98,10 @@ public class SurveyService {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public Status changeSurveyStatus(int surveyId) {
-		@SuppressWarnings("unchecked")
+
 		Survey survey = (Survey) repository.fetchById(Survey.class, surveyId);
 		if (survey.getStatus().equals(Status.INACTIVE))
 			survey.setStatus(Status.ACTIVE);

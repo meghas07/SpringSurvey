@@ -62,7 +62,7 @@ $(document)
 									function(event) {
 										event.preventDefault();
 
-										alert($("#survey_id").val())
+										
 										if ($.isNumeric($("#survey_id").val())) {
 
 											/*
@@ -123,6 +123,7 @@ $(document)
 											 */
 											var surveyObjAsJSON = JSON
 													.stringify(surveyObj);
+										
 
 											$
 													.ajax({
@@ -130,23 +131,18 @@ $(document)
 														type : "POST",
 														data : surveyObjAsJSON,
 														contentType : "application/json",
-														success : function(
-																response,
-																status) {
-															if (response == "success") {
-																window.location = "/SurveyProjectMVC/admin/AdminHome";
-															} else {
-																alert(response);
-																window.location = "/SurveyProjectMVC/admin/AdminHome";
-															}
-															s
-														} // end of
-													// success
-													// function
-													}); /* end of ajax call */
+														success : function(response,status) {															
+																window.location = "/SurveyProjectMVC/admin/AdminHome";					
+															
+														},
+											error:function(error){
+												alert(error.responseText);
+												console.log(error);
+												}
+											});  //end of ajax call 
 
 										} else
-											alert("Inavlid SurveyID or Name")
+											alert("Invalid SurveyID or Name")
 									}); // end of form submit function
 
 					// logout function call

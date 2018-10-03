@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-
 /*import org.omg.PortableServer.THREAD_POLICY_ID;*/
 import org.springframework.stereotype.Component;
 
@@ -15,7 +13,6 @@ import com.zycus.customExceptions.EntityNotFoundInDatabaseException;
 import com.zycus.customExceptions.NoRecordsFoundException;
 
 @Component
-@Transactional
 public class CrudRepository<T> /* implements Thread.UncaughtExceptionHandler */ {
 
 	@PersistenceContext
@@ -25,11 +22,10 @@ public class CrudRepository<T> /* implements Thread.UncaughtExceptionHandler */ 
 		try {
 			entityManager.persist(myObject);
 		} catch (IllegalArgumentException | EntityExistsException e) {
-			throw new CouldNotPerformOperationException("Unable to save this record : ", myObject, myObject.getClass());
+			throw new CouldNotPerformOperationException("Unable to save this record : ", myObject);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<T> fetchAll(Class<T> clazz) throws NoRecordsFoundException {
 		String jpql = "select o from " + clazz.getName() + " as o";
 		try {
@@ -44,7 +40,7 @@ public class CrudRepository<T> /* implements Thread.UncaughtExceptionHandler */ 
 
 			return entityManager.find(clazz, id);
 		} catch (Exception e) {
-			throw new EntityNotFoundInDatabaseException("Record does not exist for the given ID.");
+			throw new EntityNotFoundInDatabaseException("Record does not exist for the given ID.", id);
 		}
 
 	}
@@ -62,10 +58,4 @@ public class CrudRepository<T> /* implements Thread.UncaughtExceptionHandler */ 
 		}
 	}
 
-	/*
-	 * @Override public void uncaughtException(Thread t, Throwable e) {
-	 * e.setStackTrace("");
-	 * 
-	 * }
-	 */
 }

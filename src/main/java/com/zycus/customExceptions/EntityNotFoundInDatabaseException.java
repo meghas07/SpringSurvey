@@ -6,6 +6,7 @@ public class EntityNotFoundInDatabaseException extends RuntimeException {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Object object;
 
 	public EntityNotFoundInDatabaseException() {
 		super();
@@ -22,8 +23,9 @@ public class EntityNotFoundInDatabaseException extends RuntimeException {
 
 	}
 
-	public EntityNotFoundInDatabaseException(String message) {
+	public EntityNotFoundInDatabaseException(String message, Object object) {
 		super(message);
+		this.setObject(object);
 
 	}
 
@@ -60,6 +62,14 @@ public class EntityNotFoundInDatabaseException extends RuntimeException {
 	@Override
 	public String getMessage() {
 		return super.getMessage();
+	}
+
+	public Object getObject() {
+		return object;
+	}
+
+	public void setObject(Object object) {
+		this.object = object;
 	}
 
 }

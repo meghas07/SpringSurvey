@@ -1,36 +1,33 @@
 package com.zycus.customExceptions;
 
-public class CouldNotPerformOperationException extends RuntimeException {
+public class InvalidDetailsException extends RuntimeException {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Object object;
 
-	public CouldNotPerformOperationException() {
+	public InvalidDetailsException() {
 		super();
 
 	}
 
-	public CouldNotPerformOperationException(String message, Throwable cause, boolean enableSuppression,
+	public InvalidDetailsException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 
 	}
 
-	public CouldNotPerformOperationException(String message, Throwable cause) {
+	public InvalidDetailsException(String message, Throwable cause) {
 		super(message, cause);
 
 	}
 
-	public CouldNotPerformOperationException(String message, Object object) {
+	public InvalidDetailsException(String message, Object object) {
 		super(message);
 		this.object = object;
 
 	}
 
-	public CouldNotPerformOperationException(Throwable cause) {
+	public InvalidDetailsException(Throwable cause) {
 		super(cause);
 
 	}

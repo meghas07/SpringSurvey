@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.zycus.customExceptions.EntityNotFoundInDatabaseException;
 import com.zycus.myenums.UserRole;
 import com.zycus.service.UserService;
 
@@ -17,6 +16,11 @@ import com.zycus.service.UserService;
 public class CommonFrontController {
 	@Autowired
 	private UserService userService;
+
+	@RequestMapping("/home")
+	public String displayMessage() {
+		return "index";
+	}
 
 	// This is for checking login credentials of user
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)

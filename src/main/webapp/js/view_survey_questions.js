@@ -25,18 +25,22 @@
 
                     } // end of for
 
-                }
+                },
+       		 error:function(error){
+    			 alert(error.responseText)
+    			 console.log(error)
+    		 }
 
             });
             // end of ajax for retrieving surveys
 
             $("#back").click(function() {
                 console.log("hello");
-                window.location = "/SurveyProjectMVC/user/UserPendingSurveys";
+                window.location = "/SurveyProjectMVC/admin/viewAllSurvey";
             });
 
             $("#home").click(function() {
-                window.location = "/SurveyProjectMVC/admin/Adminhome";
+                window.location = "/SurveyProjectMVC/admin/AdminHome";
             });
 
 

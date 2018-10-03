@@ -2,10 +2,12 @@ package com.zycus.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zycus.customExceptions.EntityNotFoundInDatabaseException;
+import com.zycus.customExceptions.CouldNotPerformOperationException;
 import com.zycus.entity.Response;
 import com.zycus.entity.SharedSurveysWithUser;
 import com.zycus.entity.Survey;
@@ -13,19 +15,19 @@ import com.zycus.entity.User;
 import com.zycus.myenums.ResponseStatus;
 import com.zycus.repository.CrudRepository;
 import com.zycus.repository.ResponseRepository;
-import com.zycus.repository.SurveyRepository;
 
 @Service
 public class ResponseService {
 
+	@SuppressWarnings("rawtypes")
 	@Autowired
 	private CrudRepository repository;
 	@Autowired
-	private SurveyRepository surveyRepository;
-	@Autowired
 	private ResponseRepository responseRepository;
 
-	public String addResponseByUser(List<Response> listOfResponses) {
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public String addResponseByUser(List<Response> listOfResponses) throws CouldNotPerformOperationException {
 		boolean flag = false;
 		int userId = 0, surveyId = 0;
 

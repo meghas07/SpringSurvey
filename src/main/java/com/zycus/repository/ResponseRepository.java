@@ -93,6 +93,7 @@ public class ResponseRepository {
 
 	}
 
+	@Transactional
 	public void deleteResponsesForSurvey(int surveyId) {
 		CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
 		CriteriaDelete<Response> query = criteria.createCriteriaDelete(Response.class);

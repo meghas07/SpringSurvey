@@ -1,37 +1,34 @@
 package com.zycus.customExceptions;
 
-public class NoRecordsFoundException extends RuntimeException {
+public class IncompleteDetailsException extends RuntimeException {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Object object;
 
-	public NoRecordsFoundException() {
+	public IncompleteDetailsException() {
 		super();
 
 	}
 
-	public NoRecordsFoundException(String message, Throwable cause, boolean enableSuppression,
+	public IncompleteDetailsException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 
 	}
 
-	public NoRecordsFoundException(String message, Throwable cause) {
+	public IncompleteDetailsException(String message, Throwable cause) {
 		super(message, cause);
 
 	}
 
-	public NoRecordsFoundException(String message, Object object) {
+	public IncompleteDetailsException(String message, Object object) {
 		super(message);
-
 		this.setObject(object);
+		System.out.println("eher");
 
 	}
 
-	public NoRecordsFoundException(Throwable cause) {
+	public IncompleteDetailsException(Throwable cause) {
 		super(cause);
 
 	}

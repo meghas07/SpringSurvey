@@ -3,11 +3,11 @@ package com.zycus.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zycus.customExceptions.IncompleteDetailsException;
+import com.zycus.customExceptions.InvalidDetailsException;
 import com.zycus.entity.Question;
 import com.zycus.entity.Survey;
-import com.zycus.entity.User;
 import com.zycus.repository.CrudRepository;
-import com.zycus.repository.UserRepository;
 
 @Service
 public class Validator {
@@ -17,22 +17,21 @@ public class Validator {
 	private CrudRepository crudRepo;
 
 	@SuppressWarnings("unchecked")
-	public String checkSurveyForm(Survey survey) {
-		if (survey.getSurveyId() == 0 || survey.getSurveyName() == null || survey.getSurveyName() == "")
-			return "Please Enter All details";
+	public boolean checkSurveyForm(Survey survey) {
 
-		try {
-			if (crudRepo.fetchById(Survey.class, survey.getSurveyId()) != null)
-				return "This id is is already in use.Pleaase try another.";
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (survey == null || survey.getSurveyId() == 0 || survey.getSurveyName() == null
+				|| survey.getSurveyName() == "") {
+			System.out.println("gfkjvbfdjv");
+			throw new IncompleteDetailsException("Please fill in all details", survey);
 		}
+
+		if (crudRepo.fetchById(Survey.class, survey.getSurveyId()) != null)
+			throw new InvalidDetailsException("This id is already in use.Please try another", survey);
 
 		for (Question question : survey.getSetOfQuestionsInSurvey())
 			if (question.getQuestionDescription() == null || question.getQuestionDescription() == "")
-				return "Please do not leave the question field blank";
-
-		return "success";
+				throw new IncompleteDetailsException("Please fill in all details", survey);
+		return true;
 
 	}
 

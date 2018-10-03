@@ -91,7 +91,11 @@ $(document).ready(function() {
 						$('#survey_tbl tbody').append(trChild);
 				}
 				
-			}
+			},
+		 error:function(error){
+			 alert(error.responseText)
+			 console.log(error)
+		 }
 		});
 		
 	// end of ajax for retireving surveys
